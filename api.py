@@ -7,7 +7,7 @@ def get_geocode_api(service, location):
 
 def main():
     # Replace these values with your own
-    api_key = 'YOUR_API_KEY2'  # Your Google Maps Geocoding API Key
+    api_key = 'YOUR_API_KEY3'  # Your Google Maps Geocoding API Key
     location = 'London, UK'
 
     # Create the client instance.
