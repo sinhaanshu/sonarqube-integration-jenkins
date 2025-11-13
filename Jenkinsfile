@@ -1,16 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        GITHUB_CONTEXT = 'jenkins/build'
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/sinhaanshu/sonarqube-integration-jenkins.git'
-                // Notify GitHub that the build has started
-                githubNotify context: "${GITHUB_CONTEXT}", status: 'PENDING', description: 'Build started'
             }
         }
 
@@ -46,18 +40,14 @@ pipeline {
     }
 
     post {
-        success {
-            echo "🎉 SonarQube Quality Gate passed!"
-            githubNotify context: "${GITHUB_CONTEXT}", status: 'SUCCESS', description: 'Build and analysis passed'
-        }
-
-        failure {
-            echo "❌ Pipeline failed due to Quality Gate or build issues."
-            githubNotify context: "${GITHUB_CONTEXT}", status: 'FAILURE', description: 'Build or analysis failed'
-        }
-
         always {
             echo "✅ Pipeline completed."
+        }
+        success {
+            echo "🎉 SonarQube Quality Gate passed!"
+        }
+        failure {
+            echo "❌ Pipeline failed due to Quality Gate or build issues."
         }
     }
 }
